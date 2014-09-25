@@ -8,18 +8,18 @@ It adapts to how expensive the task is, regardless of whether its sync or async.
 
 `unjank(data, map, [opts], cb)`
 
- * **data** must be an array
- * **map** can either be:
-   * `function sync (item) { return transform(item) }`
-   * `function async (item, cb) { cb(null, transform(item)) }`
+* **data** must be an array
+* **map** can either be:
+  * `function sync (item) { return transform(item) }`
+  * `function async (item, cb) { cb(null, transform(item)) }`
 * **opts** is an optional object
-   * `opts.targetFPS` defaults to 30
+  * `opts.targetFPS` defaults to 30
 * **cb** should have the signature `function cb(err, results, metadata) {}`
-   * `err` if an async map function returns an error, this is where it goes
-   * `results` an array, just what you would expect from `array.map`
-   * `metadata` information learned by `unjank` during execution
-     * `metadata.intervalPerItem` The average number of milliseconds each `map(item)` took
-     * `metadata.batchSize` The optimal number of items mapped per frame
+  * `err` if an async map function returns an error, this is where it goes
+  * `results` an array, just what you would expect from `array.map`
+  * `metadata` information learned by `unjank` during execution
+    * `metadata.intervalPerItem` The average number of milliseconds each `map(item)` took
+    * `metadata.batchSize` The optimal number of items mapped per frame
 
 ## Async Example
 
