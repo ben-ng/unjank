@@ -46,10 +46,6 @@ function unjank (items, mapFunction, opts, cb) {
 
   opts = opts || {}
 
-  if(!items.length) {
-    return cb(null, [])
-  }
-
   var targetFPS = opts.targetFPS || 40
       // Underpromise and overdeliver!
       // I'm promising 30fps in the readme, so aim for 40 (:
@@ -58,6 +54,34 @@ function unjank (items, mapFunction, opts, cb) {
     , totalItems = items.length
     , lastItem = 0
     , mapresults = []
+    , aborted = false
+    , completed = false
+    , instance = {
+        abort: function abort () {
+        if(aborted) {
+          throw new Error('Already aborted')
+        }
+
+        if(completed) {
+          throw new Error('Already completed')
+        }
+
+        aborted = true
+
+        cb(new Error('Aborted'))
+      }}
+    , proxiedCb = cb
+
+  cb = function () {
+    var args = Array.prototype.slice.call(arguments)
+    completed = true
+    proxiedCb.apply(this, args)
+  }
+
+  if(!items.length) {
+    cb(null, [])
+    return instance
+  }
 
   // Convert to async if needed
   mapFunction = makeAsync(mapFunction)
@@ -91,6 +115,10 @@ function unjank (items, mapFunction, opts, cb) {
   }
 
   function _mapBatch () {
+    if(aborted) {
+      return
+    }
+
     var timeNow = new Date().getTime()
       , batchEnd = _nextBatch()
       , optimalBatchSize
@@ -129,6 +157,8 @@ function unjank (items, mapFunction, opts, cb) {
   }
 
   _mapBatch()
+
+  return instance
 }
 
 module.exports = unjank

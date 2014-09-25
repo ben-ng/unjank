@@ -112,3 +112,51 @@ test('learns cost', function (t) {
     t.ok(Math.abs(metaData.batchSize - 5) < 2, 'Batch size should be around 5 (got ' + metaData.batchSize + ')')
   })
 })
+
+test('aborts when possible', function (t) {
+  t.plan(1)
+
+  function slowMap (t, cb) {
+    setTimeout(function () {
+      cb(null, t * 10)
+    }, 4)
+  }
+
+  var instance = unjank(intArray, slowMap, function (err) {
+    t.equal(err.toString(), 'Error: Aborted', 'There should be an Aborted error')
+  })
+
+  instance.abort()
+})
+
+test('does not abort when completed', function (t) {
+  t.plan(2)
+
+  var instance = unjank([], function () {}, function (err) {
+    t.ok(err == null, 'There should be no error')
+  })
+
+  t.throws(function () {
+    instance.abort()
+  }, /Error: Already completed/, 'There should be an Already completed error')
+})
+
+test('does not abort when already aborted', function (t) {
+  t.plan(2)
+
+  function slowMap (t, cb) {
+    setTimeout(function () {
+      cb(null, t * 10)
+    }, 4)
+  }
+
+  var instance = unjank(intArray, slowMap, function (err) {
+    t.equal(err.toString(), 'Error: Aborted', 'There should be an Aborted error')
+  })
+
+  instance.abort()
+
+  t.throws(function () {
+    instance.abort()
+  }, /Error: Already aborted/, 'There should be an Already aborted error')
+})

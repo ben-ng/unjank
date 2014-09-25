@@ -24,7 +24,7 @@ unjank([1,2,3,4,5,6,7,8,9,10], expensiveFunction, {targetFPS: 30}, function (err
 [![browser support](https://ci.testling.com/ben-ng/unjank.png)
 ](https://ci.testling.com/ben-ng/unjank)
 
-## API Documentation
+## API
 
 `unjank(data, map, [opts], cb)`
 
@@ -43,6 +43,19 @@ unjank([1,2,3,4,5,6,7,8,9,10], expensiveFunction, {targetFPS: 30}, function (err
   * `metadata` information learned by `unjank` during execution
     * `metadata.intervalPerItem` The average number of milliseconds each `map(item)` took
     * `metadata.batchSize` The optimal number of items mapped per frame
+
+### Aborting
+
+You can abort the task at any time by calling `abort()` on the returned object.
+
+```js
+var instance = unjank(data, map, cb)
+instance.abort()
+```
+
+This will cause the callback function to be called with `new Error('Aborted')`.
+
+You cannot abort a task more than once, or once it has completed.
 
 ### Async Example
 
