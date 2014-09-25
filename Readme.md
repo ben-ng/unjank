@@ -108,7 +108,7 @@ var unjank = require('unjank')
       })
     }
 
-unjank(data, syncMap, {batchMap: true}, function (err, results, metadata) {
+unjank(data, batchMap, {batchMap: true}, function (err, results, metadata) {
   // your code here
 })
 ```
