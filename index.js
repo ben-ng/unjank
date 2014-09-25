@@ -125,6 +125,10 @@ function unjank (items, mapFunction, opts, cb) {
       , intervalThisBatch
 
     mapFunction(items.slice(lastItem, batchEnd), function (err, mapped) {
+      if(aborted) {
+        return
+      }
+
       if(err) {
         return cb(err)
       }
