@@ -5,7 +5,7 @@
 It learns how expensive it is to perform each task, and figures out the optimal batch size to reach your target FPS.
 
 ## Quick Example
-```
+```js
 // Simulate an expensive function that takes 4ms to execute
 function expensiveFunction (t, cb) {
   setTimeout(function () {
