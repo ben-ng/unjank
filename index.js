@@ -11,6 +11,33 @@ function makeAsync (func) {
   }
 }
 
+function makeBatchMap(func) {
+  return function (batch, cb) {
+    var i = 0
+      , results = []
+
+    function _nextMap () {
+      if(i === batch.length) {
+        cb(null, results)
+      }
+      else {
+        func(batch[i], function (err, result) {
+          if(err) {
+            cb(err)
+          }
+          else {
+            results.push(result)
+            i = i + 1
+            _nextMap()
+          }
+        })
+      }
+    }
+
+    _nextMap()
+  }
+}
+
 function unjank (items, mapFunction, opts, cb) {
   if(typeof opts == 'function') {
     cb = opts
@@ -20,7 +47,7 @@ function unjank (items, mapFunction, opts, cb) {
   opts = opts || {}
 
   if(!items.length) {
-    return cb()
+    return cb(null, [])
   }
 
   var targetFPS = opts.targetFPS || 40
@@ -34,6 +61,10 @@ function unjank (items, mapFunction, opts, cb) {
 
   // Convert to async if needed
   mapFunction = makeAsync(mapFunction)
+
+  if(!opts.batchMap) {
+    mapFunction = makeBatchMap(mapFunction)
+  }
 
   function _nextBatch () {
     if(lastItem === totalItems) {

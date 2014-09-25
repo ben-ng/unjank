@@ -11,9 +11,12 @@ It adapts to how expensive the task is, regardless of whether its sync or async.
 * **data** must be an array
 * **map** can either be:
   * `function sync (item) { return transform(item) }`
+  * `function batchSync (batch) { return batch.map(transform) }`
   * `function async (item, cb) { cb(null, transform(item)) }`
+  * `function batchAsync (batch, cb) { cb(null, batch.map(transform) }`
 * **opts** is an optional object
   * `opts.targetFPS` defaults to 30
+  * `opts.batchMap` defaults to false
 * **cb** should have the signature `function cb(err, results, metadata) {}`
   * `err` if an async map function returns an error, this is where it goes
   * `results` an array, just what you would expect from `array.map`
