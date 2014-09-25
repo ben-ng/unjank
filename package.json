@@ -1,0 +1,28 @@
+{
+  "name": "unjank",
+  "version": "1.0.0",
+  "description": "Do things without locking up the UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ben-ng/unjank.git"
+  },
+  "keywords": [
+    "jank",
+    "map",
+    "fast",
+    "async"
+  ],
+  "author": "Ben Ng <me@benng.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ben-ng/unjank/issues"
+  },
+  "homepage": "https://github.com/ben-ng/unjank",
+  "dependencies": {
+    "raf": "^2.0.3"
+  }
+}
