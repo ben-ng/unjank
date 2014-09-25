@@ -4,6 +4,11 @@
 
 It adapts to how expensive the task is, regardless of whether its sync or async.
 
+[![Build Status](https://travis-ci.org/ben-ng/unjank.svg?branch=master)](https://travis-ci.org/ben-ng/unjank)
+
+[![browser support](https://ci.testling.com/ben-ng/unjank.png)
+](https://ci.testling.com/ben-ng/unjank)
+
 ## Usage
 
 `unjank(data, map, [opts], cb)`
