@@ -1,12 +1,13 @@
 # Unjank
 
+[![Build Status](https://travis-ci.org/ben-ng/unjank.svg?branch=master)](https://travis-ci.org/ben-ng/unjank)
+
 `unjank` is an asynchronous `Array.prototype.map` that doesn't lock up the browser's UI.
 
 * Quickly learns how expensive it is to perform each task
 * Runs the task in batches to acheive a target FPS
 * Allows you to abort at any time
 
-## Quick Example
 ```js
 // Simulate an expensive function that takes 4ms to execute
 function expensiveFunction (t, cb) {
@@ -20,11 +21,6 @@ unjank([1,2,3,4,5,6,7,8,9,10], expensiveFunction, {targetFPS: 30}, function (err
   // results => [10, 20, 30, ...]
 })
 ```
-
-[![Build Status](https://travis-ci.org/ben-ng/unjank.svg?branch=master)](https://travis-ci.org/ben-ng/unjank)
-
-[![browser support](https://ci.testling.com/ben-ng/unjank.png)
-](https://ci.testling.com/ben-ng/unjank)
 
 ## API
 
