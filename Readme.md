@@ -2,7 +2,9 @@
 
 `unjank` is an asynchronous `Array.prototype.map` that doesn't lock up the browser's UI.
 
-It learns how expensive it is to perform each task, and figures out the optimal batch size to reach your target FPS.
+* Quickly learns how expensive it is to perform each task
+* Runs the task in batches to acheive a target FPS
+* Allows you to abort at any time
 
 ## Quick Example
 ```js
