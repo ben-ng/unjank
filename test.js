@@ -16,14 +16,15 @@ test('works on empty array', function (t) {
 })
 
 test('works on array (sync)', function (t) {
-  t.plan(2)
+  t.plan(3)
 
   function syncMap (t) {
     return t * 10
   }
 
-  unjank(intArray, syncMap, function (err, results) {
+  var instance = unjank(intArray, syncMap, function (err, results) {
     t.ok(err == null, 'There should be no error')
+    t.ok(instance.completed, 'The task should have completed')
     t.deepEqual(results, [0, 10, 20, 30, 40], 'There should be 5 mapped results')
   })
 })
@@ -142,7 +143,7 @@ test('does not abort when completed', function (t) {
 })
 
 test('does not abort when already aborted', function (t) {
-  t.plan(2)
+  t.plan(4)
 
   function slowMap (t, cb) {
     setTimeout(function () {
@@ -154,7 +155,11 @@ test('does not abort when already aborted', function (t) {
     t.equal(err.toString(), 'Error: Aborted', 'There should be an Aborted error')
   })
 
+  t.ok(!instance.aborted, 'The instance should not be aborted yet')
+
   instance.abort()
+
+  t.ok(instance.aborted, 'The instance should be aborted')
 
   t.throws(function () {
     instance.abort()

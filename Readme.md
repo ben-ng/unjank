@@ -42,6 +42,14 @@ unjank([1,2,3,4,5,6,7,8,9,10], expensiveFunction, {targetFPS: 30}, function (err
     * `metadata.intervalPerItem` The average number of milliseconds each `map(item)` took
     * `metadata.batchSize` The optimal number of items mapped per frame
 
+### Return Value
+
+`unjank` returns an instance object.
+
+* `instance.completed` is true if the operation completed (and was not aborted)
+* `instance.aborted` is true if the operation was aborted
+* `instance.abort` is a function you can call to abort the operation
+
 ### Aborting
 
 You can abort the task at any time by calling `abort()` on the returned object.

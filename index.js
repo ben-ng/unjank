@@ -58,23 +58,28 @@ function unjank (items, mapFunction, opts, cb) {
     , completed = false
     , instance = {
         abort: function abort () {
-        if(aborted) {
-          throw new Error('Already aborted')
+          if(aborted) {
+            throw new Error('Already aborted')
+          }
+
+          if(completed) {
+            throw new Error('Already completed')
+          }
+
+          aborted = true
+          instance.aborted = true
+
+          cb(new Error('Aborted'))
         }
-
-        if(completed) {
-          throw new Error('Already completed')
-        }
-
-        aborted = true
-
-        cb(new Error('Aborted'))
-      }}
+      , completed: false
+      , aborted: false
+      }
     , proxiedCb = cb
 
   cb = function () {
     var args = Array.prototype.slice.call(arguments)
     completed = true
+    instance.completed = true
     proxiedCb.apply(this, args)
   }
 
