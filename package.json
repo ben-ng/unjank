@@ -1,6 +1,6 @@
 {
   "name": "unjank",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Do things without locking up the UI",
   "main": "index.js",
   "scripts": {
